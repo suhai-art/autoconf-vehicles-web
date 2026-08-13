@@ -12,7 +12,7 @@ import "./app.css"
 
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
+        <html lang="pt-br">
             <head>
                 <meta charSet="utf-8" />
                 <meta
