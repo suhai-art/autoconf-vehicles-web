@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root"
 import "./app.css"
+import { useEffect } from "react"
 
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -32,6 +33,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+    useEffect(() => {
+        document.title = "Autoconf | Vehicle"
+    }, [])
+
     return <Outlet />
 }
 
