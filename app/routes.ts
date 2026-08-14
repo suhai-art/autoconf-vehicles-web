@@ -6,9 +6,9 @@ import {
 } from "@react-router/dev/routes"
 
 export default [
-    layout("routes/_protected.tsx", [index("routes/home.tsx")]),
+    layout("routes/_protected.tsx", [index("routes/protected/home.tsx")]),
     layout("routes/_public.tsx", [
-        route("login", "routes/login.tsx"),
-        route("register", "routes/register.tsx"),
+        route("login", "routes/public/login.tsx"),
+        route("register", "routes/public/register.tsx"),
     ]),
 ] satisfies RouteConfig
