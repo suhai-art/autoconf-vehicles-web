@@ -1,20 +1,16 @@
-import { redirect, Outlet } from "react-router"
-import { getMe } from "~/features/auth"
-
-export async function loader() {
-    try {
-        await getMe()
-
-        throw redirect("/")
-    } catch (error) {
-        if (error instanceof Response) {
-            throw error
-        }
-
-        return null
-    }
-}
+import { Navigate, Outlet } from "react-router"
+import { useAuth } from "~/features/auth"
 
 export default function PublicLayout() {
+    const { data: user, isLoading } = useAuth()
+
+    if (isLoading) {
+        return <div>Carregando...</div>
+    }
+
+    if (user) {
+        return <Navigate to="/" replace />
+    }
+
     return <Outlet />
 }
