@@ -6,25 +6,34 @@ import {
     ScrollRestoration,
     isRouteErrorResponse,
 } from "react-router"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import type { Route } from "./+types/root"
 import "./app.css"
-import { useEffect } from "react"
+
+const queryClient = new QueryClient()
+
+export function meta() {
+    return [{ title: "Autoconf | Vehicle" }]
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="pt-br">
+        <html lang="pt-BR">
             <head>
                 <meta charSet="utf-8" />
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
+
                 <Meta />
                 <Links />
             </head>
+
             <body>
                 {children}
+
                 <ScrollRestoration />
                 <Scripts />
             </body>
@@ -33,11 +42,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-    useEffect(() => {
-        document.title = "Autoconf | Vehicle"
-    }, [])
-
-    return <Outlet />
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Outlet />
+        </QueryClientProvider>
+    )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
@@ -49,9 +58,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
         message = error.status === 404 ? "404" : "Error"
         details =
             error.status === 404
-                ? "The requested page could not be found."
+                ? "A página não foi encontrada."
                 : error.statusText || details
-    } else if (import.meta.env.DEV && error && error instanceof Error) {
+    } else if (import.meta.env.DEV && error instanceof Error) {
         details = error.message
         stack = error.stack
     }
@@ -60,6 +69,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
         <main className="container mx-auto p-4 pt-16">
             <h1>{message}</h1>
             <p>{details}</p>
+
             {stack && (
                 <pre className="w-full overflow-x-auto p-4">
                     <code>{stack}</code>

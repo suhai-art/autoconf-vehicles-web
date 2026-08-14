@@ -1,18 +1,16 @@
 import { Outlet, redirect } from "react-router"
+import { getMe } from "~/features/auth"
 
 export async function loader() {
-    // TODO: Fazer req. para CRSF-COOKIES
-    // TODO: Fazer req. /me
+    try {
+        await getMe()
 
-    const authenticated = false
-
-    if (!authenticated) {
+        return null
+    } catch {
         throw redirect("/login")
     }
-
-    return null
 }
 
-export default function ProtectedLayour() {
+export default function ProtectedLayout() {
     return <Outlet />
 }
