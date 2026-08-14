@@ -30,9 +30,23 @@ export async function login(data: LoginInput) {
     }
 }
 export async function register(data: RegisterInput): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>("/api/auth/register", data)
+    try {
+        const response = await api.post<AuthResponse>(
+            "/api/auth/register",
+            data
+        )
 
-    return response.data
+        return response.data
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw new Error(
+                error.response?.data?.message ??
+                    "Não foi possível realizar se registrar."
+            )
+        }
+
+        throw new Error("Ocorreu um erro inesperado.")
+    }
 }
 
 export async function logout(): Promise<void> {
