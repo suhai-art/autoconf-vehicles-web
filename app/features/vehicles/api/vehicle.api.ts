@@ -22,14 +22,15 @@ function buildParams(
 
 export async function getVehicles(
     filters?: VehicleFilters
-): Promise<Vehicle[]> {
+): Promise<PaginatedResponse<Vehicle>> {
     try {
-        const response = await api.get<PaginatedResponse<Vehicle> | Vehicle[]>(
+        const response = await api.get<PaginatedResponse<Vehicle>>(
             "/api/vehicles",
             { params: buildParams(filters) }
         )
+        const payload = response.data
 
-        return response.data.data
+        return payload
     } catch (error) {
         if (axios.isAxiosError(error)) {
             throw new Error(

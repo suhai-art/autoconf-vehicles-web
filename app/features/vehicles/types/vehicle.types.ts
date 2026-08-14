@@ -12,6 +12,8 @@ export type Vehicle = {
     valor_venda: number
     cor: string
     km: number
+    is_delete: boolean
+    is_update: boolean
     cambio: VehicleCambio
     combustivel: VehicleCombustivel
     images: VehicleImage[]
@@ -46,6 +48,12 @@ export type VehicleFilters = {
 
 export type PaginatedResponse<T> = {
     data: T[]
+    meta: PageInfos
+}
+
+type PageInfos = {
+    from: number
+    links: string[]
     current_page: number
     last_page: number
     per_page: number
