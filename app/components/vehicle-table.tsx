@@ -136,15 +136,12 @@ export function VehicleTable() {
                                     <TableHead>Capa</TableHead>
                                     <TableHead>Marca</TableHead>
                                     <TableHead>Modelo</TableHead>
-                                    <TableHead>Versão</TableHead>
                                     <TableHead>Placa</TableHead>
                                     <TableHead>Chassi</TableHead>
                                     <TableHead>Cor</TableHead>
                                     <TableHead className="text-right">
                                         KM
                                     </TableHead>
-                                    <TableHead>Câmbio</TableHead>
-                                    <TableHead>Combustível</TableHead>
                                     <TableHead className="text-right">
                                         Valor de venda
                                     </TableHead>
@@ -187,9 +184,6 @@ export function VehicleTable() {
                                             <TableCell>
                                                 {vehicle.modelo}
                                             </TableCell>
-                                            <TableCell>
-                                                {vehicle.versao}
-                                            </TableCell>
                                             <TableCell className="uppercase">
                                                 {vehicle.placa}
                                             </TableCell>
@@ -200,15 +194,6 @@ export function VehicleTable() {
                                             <TableCell className="text-right tabular-nums">
                                                 {kmFormatter.format(vehicle.km)}{" "}
                                                 km
-                                            </TableCell>
-                                            <TableCell>
-                                                {cambioLabels[vehicle.cambio] ??
-                                                    vehicle.cambio}
-                                            </TableCell>
-                                            <TableCell>
-                                                {combustivelLabels[
-                                                    vehicle.combustivel
-                                                ] ?? vehicle.combustivel}
                                             </TableCell>
                                             <TableCell className="text-right font-medium tabular-nums">
                                                 {currencyFormatter.format(

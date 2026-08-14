@@ -1,6 +1,7 @@
 "use client"
 
-import { Search, X } from "lucide-react"
+import { Plus, Search } from "lucide-react"
+import { useNavigate } from "react-router"
 
 import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
@@ -26,9 +27,7 @@ type VehicleFiltersProps = {
 }
 
 export function VehicleFilters({ filters, onChange }: VehicleFiltersProps) {
-    const hasActiveFilters = Object.values(filters).some(
-        (value) => value.trim() !== ""
-    )
+    const navigate = useNavigate()
 
     function setField(field: keyof VehicleTableFilters, value: string) {
         onChange({ ...filters, [field]: value })
@@ -36,6 +35,13 @@ export function VehicleFilters({ filters, onChange }: VehicleFiltersProps) {
 
     return (
         <div className="flex flex-col gap-4 rounded-lg border p-4">
+            <div className="flex items-center justify-between gap-3">
+                <h1 className="text-xl font-semibold">Veículos</h1>
+                <Button type="button" onClick={() => navigate("/vehicles/new")}>
+                    <Plus className="size-4" />
+                    Novo veículo
+                </Button>
+            </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="flex flex-col gap-1.5 lg:col-span-4 xl:col-span-1">
                     <Label htmlFor="filter-q">Busca geral</Label>
