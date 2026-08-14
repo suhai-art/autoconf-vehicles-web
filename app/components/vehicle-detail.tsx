@@ -72,7 +72,6 @@ export function VehicleDetail({ vehicle }: VehicleDetailProps) {
                 <img
                     src={cover.url || "/placeholder.svg"}
                     alt={`Foto do veículo ${vehicle.marca} ${vehicle.modelo}`}
-                    crossOrigin="anonymous"
                     className="aspect-video w-full rounded-lg border object-cover"
                 />
             )}
@@ -104,24 +103,6 @@ export function VehicleDetail({ vehicle }: VehicleDetailProps) {
                     }
                 />
             </div>
-
-            {vehicle.images?.length > 1 && (
-                <>
-                    <Separator />
-
-                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                        {vehicle.images.map((image) => (
-                            <img
-                                key={image.id}
-                                src={image.url || "/placeholder.svg"}
-                                alt={`Foto do veículo ${vehicle.marca} ${vehicle.modelo}`}
-                                crossOrigin="anonymous"
-                                className="aspect-square w-full rounded-md border object-cover"
-                            />
-                        ))}
-                    </div>
-                </>
-            )}
         </div>
     )
 }

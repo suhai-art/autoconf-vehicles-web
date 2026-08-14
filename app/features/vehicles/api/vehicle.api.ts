@@ -6,6 +6,7 @@ import type {
     Vehicle,
     VehicleFilters,
 } from "../types/vehicle.types"
+import type { VehicleImage } from "../types/vehicle-image.types"
 import axios from "axios"
 
 function buildParams(
@@ -104,6 +105,76 @@ export async function deleteVehicle(id: number): Promise<void> {
             throw new Error(
                 error.response?.data?.message ??
                     "Não foi possível deletar o veiculo."
+            )
+        }
+
+        throw new Error("Ocorreu um erro inesperado.")
+    }
+}
+
+export async function uploadVehicleImages(
+    vehicleId: number,
+    files: File[]
+): Promise<VehicleImage[]> {
+    try {
+        const formData = new FormData()
+
+        files.forEach((file) => {
+            formData.append("files[]", file)
+        })
+
+        const response = await api.post<{ data?: VehicleImage[] }>(
+            `/api/vehicles/${vehicleId}/images`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        )
+
+        return response.data?.data ?? []
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw new Error(
+                error.response?.data?.message ??
+                    "Não foi possível enviar as imagens."
+            )
+        }
+
+        throw new Error("Ocorreu um erro inesperado.")
+    }
+}
+
+export async function deleteVehicleImage(
+    vehicleId: number,
+    imageId: number
+): Promise<void> {
+    try {
+        await api.delete(`/api/vehicles/${vehicleId}/images/${imageId}`)
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw new Error(
+                error.response?.data?.message ??
+                    "Não foi possível remover a imagem."
+            )
+        }
+
+        throw new Error("Ocorreu um erro inesperado.")
+    }
+}
+
+export async function setVehicleImageCover(
+    vehicleId: number,
+    imageId: number
+): Promise<void> {
+    try {
+        await api.patch(`/api/vehicles/${vehicleId}/images/${imageId}/cover`)
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw new Error(
+                error.response?.data?.message ??
+                    "Não foi possível definir a imagem de capa."
             )
         }
 

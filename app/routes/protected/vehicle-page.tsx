@@ -5,6 +5,7 @@ import { Alert } from "~/components/ui/alert"
 import { Spinner } from "~/components/ui/spinner"
 import { VehicleForm } from "~/components/vehicle-form"
 import { VehicleDetail } from "~/components/vehicle-detail"
+import { VehicleGallery } from "~/components/vehicle-gallery"
 
 import {
     useCreateVehicle,
@@ -146,7 +147,15 @@ export default function VehiclePage() {
             )}
 
             {!isCreate && vehicle && !isEditing && (
-                <VehicleDetail vehicle={vehicle} />
+                <>
+                    <VehicleDetail vehicle={vehicle} />
+
+                    <VehicleGallery
+                        vehicleId={vehicle.id}
+                        images={vehicle.images ?? []}
+                        vehicleName={`${vehicle.marca} ${vehicle.modelo}`}
+                    />
+                </>
             )}
 
             {(isCreate || (vehicle && isEditing)) && (

@@ -37,7 +37,7 @@ function getCoverImage(images: VehicleImage[]): VehicleImage | undefined {
 
 function VehicleCover({ vehicle }: { vehicle: Vehicle }) {
     const cover = getCoverImage(vehicle.images ?? [])
-
+    console.log(cover)
     if (!cover) {
         return (
             <div className="flex size-16 items-center justify-center rounded-md border bg-muted text-muted-foreground">
@@ -52,7 +52,6 @@ function VehicleCover({ vehicle }: { vehicle: Vehicle }) {
             src={cover.url || "https://placehold.co/600x400?text=Image"}
             alt={`Capa do veículo ${vehicle.marca} ${vehicle.modelo}`}
             className="size-16 rounded-md border object-cover"
-            crossOrigin="anonymous"
             loading="lazy"
         />
     )
