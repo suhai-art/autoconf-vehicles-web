@@ -46,7 +46,7 @@ export async function getVehicles(
 export async function getVehicle(id: number): Promise<Vehicle> {
     try {
         const response = await api.get<Vehicle>(`/api/vehicles/${id}`)
-        return response.data
+        return response.data.data
     } catch (error) {
         if (axios.isAxiosError(error)) {
             throw new Error(

@@ -19,11 +19,10 @@ import {
     emptyFilters,
     type VehicleTableFilters,
 } from "~/components/vehicle-filters"
-import { useVehicles } from "~/features/vehicles"
+import { useVehicles, useDeleteVehicle } from "~/features/vehicles"
 import type { Vehicle } from "~/features/vehicles/types/vehicle.types"
 import type { VehicleImage } from "~/features/vehicles/types/vehicle-image.types"
-
-const PER_PAGE = 10
+import { useNavigate } from "react-router"
 
 const currencyFormatter = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -31,20 +30,6 @@ const currencyFormatter = new Intl.NumberFormat("pt-BR", {
 })
 
 const kmFormatter = new Intl.NumberFormat("pt-BR")
-
-const cambioLabels: Record<string, string> = {
-    manual: "Manual",
-    automatico: "Automático",
-}
-
-const combustivelLabels: Record<string, string> = {
-    gasolina: "Gasolina",
-    alcool: "Álcool",
-    flex: "Flex",
-    diesel: "Diesel",
-    hibrido: "Híbrido",
-    eletrico: "Elétrico",
-}
 
 function getCoverImage(images: VehicleImage[]): VehicleImage | undefined {
     return images?.find((image) => image.is_cover === true)
@@ -87,6 +72,7 @@ function useDebouncedValue<T>(value: T, delay = 400): T {
 export function VehicleTable() {
     const [filters, setFilters] = useState<VehicleTableFilters>(emptyFilters)
     const [page, setPage] = useState(1)
+    const navigation = useNavigate()
 
     const debouncedFilters = useDebouncedValue(filters)
 
@@ -108,6 +94,18 @@ export function VehicleTable() {
 
     const { data, isLoading, isError, error, isFetching } =
         useVehicles(queryFilters)
+
+    const deleteVehicle = useDeleteVehicle()
+
+    function handleDelete(vehicle: Vehicle) {
+        const confirmed = window.confirm(
+            `Tem certeza que deseja excluir o veículo ${vehicle.marca} ${vehicle.modelo}?`
+        )
+
+        if (!confirmed) return
+
+        deleteVehicle.mutate(vehicle.id)
+    }
 
     const vehicles = data?.data ?? []
     const total = data?.meta.total ?? 0
@@ -201,12 +199,25 @@ export function VehicleTable() {
                                                 )}
                                             </TableCell>
                                             <TableCell>
-                                                <Button variant="ghost">
+                                                <Button
+                                                    onClick={() =>
+                                                        navigation(
+                                                            `/vehicles/${vehicle.id}`
+                                                        )
+                                                    }
+                                                    variant="ghost"
+                                                >
                                                     <Eye />
                                                 </Button>
                                                 <Button
+                                                    onClick={() =>
+                                                        handleDelete(vehicle)
+                                                    }
                                                     disabled={
-                                                        !vehicle.is_delete
+                                                        !vehicle.is_delete ||
+                                                        (deleteVehicle.isPending &&
+                                                            deleteVehicle.variables ===
+                                                                vehicle.id)
                                                     }
                                                     variant={
                                                         !vehicle.is_delete
@@ -214,7 +225,13 @@ export function VehicleTable() {
                                                             : "ghost"
                                                     }
                                                 >
-                                                    <Trash2 className="text-destructive" />
+                                                    {deleteVehicle.isPending &&
+                                                    deleteVehicle.variables ===
+                                                        vehicle.id ? (
+                                                        <Spinner />
+                                                    ) : (
+                                                        <Trash2 className="text-destructive" />
+                                                    )}
                                                 </Button>
                                             </TableCell>
                                         </TableRow>
