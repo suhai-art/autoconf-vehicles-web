@@ -65,7 +65,7 @@ export async function createVehicle(
 ): Promise<Vehicle> {
     try {
         const response = await api.post<Vehicle>("/api/vehicles", data)
-        return response.data
+        return response.data.data
     } catch (error) {
         if (axios.isAxiosError(error)) {
             throw new Error(

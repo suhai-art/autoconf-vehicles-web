@@ -129,7 +129,7 @@ export default function VehiclePage() {
                 title={texts.title}
                 subtitle={texts.subtitle}
                 isEditing={isEditing}
-                canToggleEdit={!isCreate && Boolean(vehicle)}
+                canToggleEdit={!isCreate && !!vehicle?.is_update}
                 onBack={handleBack}
                 onToggleEdit={handleToggleEdit}
             />
