@@ -8,7 +8,7 @@ import {
 export default [
     layout("routes/_protected.tsx", [
         index("routes/protected/home.tsx"),
-        route("/vehicles/new", "routes/protected/vehicle-page.tsx"),
+        route("/vehicles/new", "routes/protected/vehicle-new.tsx"),
         route("/vehicles/:id", "routes/protected/vehicle-page.tsx"),
     ]),
     layout("routes/_public.tsx", [
